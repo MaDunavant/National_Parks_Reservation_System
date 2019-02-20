@@ -8,12 +8,12 @@ namespace Capstone.DAL
 {
     public class ParkSqlDAO : IParkDAO
     {
-        private string connectionString;
+        private string ConnectionString;
 
         // Single Parameter Constructor
-        public ParkSqlDAO(string ConnectionString)
+        public ParkSqlDAO(string connectionString)
         {
-            connectionString = ConnectionString;
+            ConnectionString = connectionString;
         }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace Capstone.DAL
 
             try
             {
-                using (SqlConnection conn = new SqlConnection(connectionString))
+                using (SqlConnection conn = new SqlConnection(ConnectionString))
                 {
                     conn.Open();
 
@@ -45,6 +45,7 @@ namespace Capstone.DAL
             {
                 Console.WriteLine("An error occurred reading parks.");
                 Console.WriteLine(ex.Message);
+                throw;
             }
 
             return parks;
