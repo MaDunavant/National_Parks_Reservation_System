@@ -6,7 +6,7 @@ namespace Capstone.Models
 {
     public class CampgroundModel
     {
-        public int Campgound_Id { get; set; }
+        public int Campground_Id { get; set; }
         public int Park_Id { get; set; }
         public string Name { get; set; }
         public int Open_From_MM { get; set; }

@@ -50,7 +50,7 @@ namespace Capstone.DAL
         {
             CampgroundModel campground = new CampgroundModel();
 
-            campground.Campgound_Id = Convert.ToInt32(reader["campground_Id"]);
+            campground.Campground_Id = Convert.ToInt32(reader["campground_Id"]);
             campground.Park_Id = Convert.ToInt32(reader["park_Id"]);
             campground.Name = Convert.ToString(reader["name"]);
             campground.Open_From_MM = Convert.ToInt32(reader["open_from_mm"]);
