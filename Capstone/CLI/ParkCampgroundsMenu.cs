@@ -49,7 +49,7 @@ namespace Capstone.CLI
                     }
                     else if (numChoice == 1)
                     {
-                        ReservationMenu rm = new ReservationMenu(cmpg);
+                        ReservationMenu rm = new ReservationMenu(Park);
                         rm.Display();
                         continue;
                     }
