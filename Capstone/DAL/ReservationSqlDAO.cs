@@ -15,9 +15,9 @@ namespace Capstone.DAL
 
         private string ConnectionString;
 
-        public bool PlaceReservation(string name, int site_Id, DateTime from_Date, DateTime to_Date)
+        public int PlaceReservation(string name, int site_Id, DateTime from_Date, DateTime to_Date)
         {
-            bool isSuccessful = false;
+            int reservationId;
 
             try
             {
@@ -31,11 +31,11 @@ namespace Capstone.DAL
                     cmd.Parameters.AddWithValue("@to_date", to_Date);
                     cmd.Parameters.AddWithValue("@site_Id", site_Id);
 
-                    if (cmd.ExecuteNonQuery() == 1)
-                    {
-                        isSuccessful = true;
-                    }
-                }
+                    cmd.ExecuteNonQuery();
+
+                    cmd = new SqlCommand("select @@Identity");
+                    reservationId = Convert.ToInt16(cmd.ExecuteScalar());
+                 }
             }
             catch (SqlException ex)
             {
@@ -44,7 +44,7 @@ namespace Capstone.DAL
                 throw;
             }
 
-            return isSuccessful;
+            return reservationId;
         }
     }
 }

@@ -59,5 +59,15 @@ namespace Capstone.DAL
 
             return campground;
         }
+        public bool IsOpen(CampgroundModel campground, DateTime startDate, DateTime endDate)
+        {
+            bool isOpen = false;
+            if (startDate.Month >= campground.Open_From_MM && startDate.Month <= campground.Open_To_MM && endDate.Month >= campground.Open_From_MM && endDate.Month <= campground.Open_To_MM)
+            {
+                isOpen = true;
+            }
+            return isOpen;
+
+        }
     }
 }
