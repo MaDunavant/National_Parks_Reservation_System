@@ -48,17 +48,28 @@ namespace Capstone.CLI
                     DateTime fromDate = DateTime.Parse(fromDateChoice);
                     DateTime toDate = DateTime.Parse(toDateChoice);
 
+                    int reservationDays = (int)(toDate - fromDate).TotalDays + 1;
+
+                    decimal reservationCost = (decimal)reservationDays * cmpg[campgroundID - 1].Daily_Fee;
+
+                    Console.WriteLine("Results Matching Your Search Criteria");
+                    Console.WriteLine($"Site No.".PadRight(10) + "Max Occup.".PadRight(12) + "Accessible?".PadRight(13) + "Max RV Length".PadRight(15) + "Utility".PadRight(9) + "Cost");
+
                     IList<CampsiteModel> availableReservations = new List<CampsiteModel>();
-                    for (int i = 0, i < availableReservations.Count; i++)
+                    availableReservations = this.CampsiteSqlDAO.GetAvailableReservations(cmpg[campgroundID], fromDate, toDate);
+
+                    for (int i = 0; i < availableReservations.Count; i++)
                     {
                         CampsiteModel res = availableReservations[i];
-                        Console.WriteLine($"{i + 1} {res.Max_Occupancy} {res.Accessible} {res.Max_RV_Length} {res.Utilities} {");
+                        Console.WriteLine($"{i + 1} {res.Max_Occupancy} {res.Accessible} {res.Max_RV_Length} {res.Utilities} {reservationCost:C2}");
                     }
+                    Console.ReadKey();
                 }
                 catch (Exception)
                 {
                     Console.WriteLine("Invalid input, try again.");
                     Console.WriteLine("Press any key to continue.");
+                    Console.ReadKey();
                     continue;
                 }
             }

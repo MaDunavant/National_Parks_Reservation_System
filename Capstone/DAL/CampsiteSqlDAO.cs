@@ -53,14 +53,27 @@ namespace Capstone.DAL
                 using (SqlConnection conn = new SqlConnection(this.ConnectionString))
                 {
                     conn.Open();
-                    SqlCommand cmd = new SqlCommand("select * from site s join reservation r on s.site_id = r.site_id where to_date < @fromdate or from_date > @todate", conn);
-                    cmd.Parameters.AddWithValue("@fromdate", fromDate);
-                    cmd.Parameters.AddWithValue("@todate", toDate);
+
+                    SqlCommand cmd = new SqlCommand("select * from site where campground_id = @campgroundId", conn);
+                    cmd.Parameters.AddWithValue("@campgroundId", campground.Campground_Id);
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
                         CampsiteModel campsite = ConvertReaderToCampsite(reader);
                         availableReservations.Add(campsite);
+                    }
+
+                    cmd = new SqlCommand("select * from site s join reservation r on s.site_id = r.site_id where from_date between @fromDate and @toDate or to_date between @fromDate and @toDate", conn);
+                    cmd.Parameters.AddWithValue("@fromDate", fromDate);
+                    cmd.Parameters.AddWithValue("@toDate", toDate);
+                    reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        CampsiteModel campsite = ConvertReaderToCampsite(reader);
+                        if (availableReservations.Contains(campsite))
+                        {
+                            availableReservations.Remove(campsite);
+                        }
                     }
                 }
             }
@@ -70,12 +83,14 @@ namespace Capstone.DAL
                 Console.WriteLine(ex.Message);
                 throw;
             }
+
             return availableReservations;
         }
 
         private CampsiteModel ConvertReaderToCampsite(SqlDataReader reader)
         {
             CampsiteModel campsite = new CampsiteModel();
+
             campsite.Site_Id = Convert.ToInt32(reader["site_id"]);
             campsite.Campground_Id = Convert.ToInt32(reader["campground_id"]);
             campsite.Site_Number = Convert.ToInt32(reader["site_number"]);
@@ -83,6 +98,7 @@ namespace Capstone.DAL
             campsite.Accessible = Convert.ToBoolean(reader["accessible"]);
             campsite.Max_RV_Length = Convert.ToInt32(reader["max_rv_length"]);
             campsite.Utilities = Convert.ToBoolean(reader["utilities"]);
+
             return campsite;
         }
     }
