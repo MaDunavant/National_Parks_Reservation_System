@@ -6,16 +6,16 @@ using Capstone.Models;
 
 namespace Capstone.CLI
 {
-    public class ViewParksMenu
+    public class ViewParksMenu : Menu
     {
-       public void Display() {
+        public void Display() {
             while (true)
             {
                 Console.Clear();
                 Console.WriteLine("View Parks");
                 Console.WriteLine("----------");
                 IList<ParkModel> parks = new List<ParkModel>();
-                parks = this.ParksDAO.GetParks();
+                parks = base.ParkSqlDAO.GetParks();
 
                 for (int i=0; i < parks.Count; i++)
                 {
@@ -36,7 +36,7 @@ namespace Capstone.CLI
 
                     if (numChoice <= parks.Count && numChoice > 0)
                     {
-                        ParksInformationMenu pim = new ParksInformationMenu(parks[numChoice - 1], this.CampgroundDAO);
+                        ParksInformationMenu pim = new ParksInformationMenu(parks[numChoice - 1]);
                         pim.Display();
                         continue;
                     }
@@ -58,13 +58,5 @@ namespace Capstone.CLI
                 }
             }
         }
-        public ViewParksMenu(ParkSqlDAO parksDAO, CampgroundSqlDAO campgroundDAO)
-        {
-            this.ParksDAO = parksDAO;
-            this.CampgroundDAO = campgroundDAO;
-        }
-
-        public ParkSqlDAO ParksDAO { get; set; }
-        public CampgroundSqlDAO CampgroundDAO { get; set; }
     }
 }

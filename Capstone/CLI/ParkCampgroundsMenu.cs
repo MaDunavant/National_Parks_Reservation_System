@@ -7,31 +7,13 @@ using Capstone.Models;
 
 namespace Capstone.CLI
 {
-    public class ParkCampgroundsMenu
+    public class ParkCampgroundsMenu : Menu
     {
         public ParkModel Park { get; }
-        public CampgroundSqlDAO CampgroundSqlDAO { get; }
-        public CampsiteSqlDAO CampsiteSqlDAO { get; }
-        public Dictionary<int, string> MonthNames { get; } = new Dictionary<int, string>
-        {
-            {1,"January" },
-            {2,"February" },
-            {3,"March" },
-            {4,"April" },
-            {5,"May" },
-            {6,"June" },
-            {7,"July" },
-            {8,"August" },
-            {9,"September" },
-            {10,"October" },
-            {11,"November" },
-            {12,"December" }
-        };
 
-        public ParkCampgroundsMenu(ParkModel park, CampgroundSqlDAO campgroundSqlDAO)
+        public ParkCampgroundsMenu(ParkModel park)
         {
             this.Park = park;
-            this.CampgroundSqlDAO = campgroundSqlDAO;
         }
 
         public void Display()
@@ -67,8 +49,8 @@ namespace Capstone.CLI
                     }
                     else if (numChoice == 1)
                     {
-                        //                        ReservationMenu rm = new ReservationMenu(cmpg);
-                        //                        rm.Display();
+                        ReservationMenu rm = new ReservationMenu(cmpg);
+                        rm.Display();
                         continue;
                     }
                     else

@@ -45,6 +45,34 @@ namespace Capstone.DAL
             return campsites;
         }
 
+        public IList<CampsiteModel> GetAvailableReservations(CampgroundModel campground, DateTime fromDate, DateTime toDate)
+        {
+            IList<CampsiteModel> availableReservations = new List<CampsiteModel>();
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(this.ConnectionString))
+                {
+                    conn.Open();
+                    SqlCommand cmd = new SqlCommand("select * from site s join reservation r on s.site_id = r.site_id where to_date < @fromdate or from_date > @todate", conn);
+                    cmd.Parameters.AddWithValue("@fromdate", fromDate);
+                    cmd.Parameters.AddWithValue("@todate", toDate);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        CampsiteModel campsite = ConvertReaderToCampsite(reader);
+                        availableReservations.Add(campsite);
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine("There was an error getting available reservations.");
+                Console.WriteLine(ex.Message);
+                throw;
+            }
+            return availableReservations;
+        }
+
         private CampsiteModel ConvertReaderToCampsite(SqlDataReader reader)
         {
             CampsiteModel campsite = new CampsiteModel();

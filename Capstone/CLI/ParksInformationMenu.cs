@@ -6,12 +6,11 @@ using Capstone.DAL;
 
 namespace Capstone.CLI
 {
-    public class ParksInformationMenu
+    public class ParksInformationMenu : Menu
     {
-        public ParksInformationMenu(ParkModel park, CampgroundSqlDAO campgroundDAO)
+        public ParksInformationMenu(ParkModel park)
         {
             this.Park = park;
-            this.CampgroundDAO = campgroundDAO;
         }
 
         public ParkModel Park { get; set; }
@@ -52,7 +51,7 @@ namespace Capstone.CLI
 
                     if (numChoice == 1)
                     {
-                        ParkCampgroundsMenu pcm = new ParkCampgroundsMenu(this.Park, this.CampgroundDAO);
+                        ParkCampgroundsMenu pcm = new ParkCampgroundsMenu(this.Park);
                         pcm.Display();
                         continue;
                     }
