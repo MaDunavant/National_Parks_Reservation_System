@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 
 namespace Capstone.DAL
 {
-    class CampsiteSqlDAO : ICampsiteDAO
+    public class CampsiteSqlDAO : ICampsiteDAO
     {
         private string ConnectionString;
 
