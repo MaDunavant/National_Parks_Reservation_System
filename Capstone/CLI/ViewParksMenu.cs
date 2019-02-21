@@ -36,7 +36,8 @@ namespace Capstone.CLI
 
                     if (numChoice <= parks.Count && numChoice > 0)
                     {
-                        ParksInformationMenu pim = new ParksInformationMenu(parks[numChoice - 1]);
+                        ParksInformationMenu pim = new ParksInformationMenu(parks[numChoice - 1], this.CampgroundDAO);
+                        pim.Display();
                         continue;
                     }
                     else
@@ -57,11 +58,13 @@ namespace Capstone.CLI
                 }
             }
         }
-        public ViewParksMenu(ParkSqlDAO parksDAO)
+        public ViewParksMenu(ParkSqlDAO parksDAO, CampgroundSqlDAO campgroundDAO)
         {
             this.ParksDAO = parksDAO;
+            this.CampgroundDAO = campgroundDAO;
         }
 
         public ParkSqlDAO ParksDAO { get; set; }
+        public CampgroundSqlDAO CampgroundDAO { get; set; }
     }
 }
