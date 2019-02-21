@@ -62,6 +62,7 @@ namespace Capstone.DAL
                         CampsiteModel campsite = ConvertReaderToCampsite(reader);
                         availableReservations.Add(campsite);
                     }
+                    reader.Close();
 
                     cmd = new SqlCommand("select * from site s join reservation r on s.site_id = r.site_id where from_date between @fromDate and @toDate or to_date between @fromDate and @toDate", conn);
                     cmd.Parameters.AddWithValue("@fromDate", fromDate);

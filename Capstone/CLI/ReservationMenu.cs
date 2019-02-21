@@ -56,7 +56,7 @@ namespace Capstone.CLI
                     Console.WriteLine($"Site No.".PadRight(10) + "Max Occup.".PadRight(12) + "Accessible?".PadRight(13) + "Max RV Length".PadRight(15) + "Utility".PadRight(9) + "Cost");
 
                     IList<CampsiteModel> availableReservations = new List<CampsiteModel>();
-                    availableReservations = this.CampsiteSqlDAO.GetAvailableReservations(cmpg[campgroundID], fromDate, toDate);
+                    availableReservations = this.CampsiteSqlDAO.GetAvailableReservations(cmpg[campgroundID - 1], fromDate, toDate);
 
                     for (int i = 0; i < availableReservations.Count; i++)
                     {
@@ -65,10 +65,11 @@ namespace Capstone.CLI
                     }
                     Console.ReadKey();
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     Console.WriteLine("Invalid input, try again.");
                     Console.WriteLine("Press any key to continue.");
+                    Console.WriteLine(ex.Message);
                     Console.ReadKey();
                     continue;
                 }
