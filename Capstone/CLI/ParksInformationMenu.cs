@@ -53,6 +53,7 @@ namespace Capstone.CLI
                     if (numChoice == 1)
                     {
                         ParkCampgroundsMenu pcm = new ParkCampgroundsMenu(this.Park, this.CampgroundDAO);
+                        pcm.Display();
                         continue;
                     }
                     else if (numChoice == 2)
