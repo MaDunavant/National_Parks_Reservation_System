@@ -17,7 +17,7 @@ namespace Capstone.DAL
 
         public int PlaceReservation(string name, int site_Id, DateTime from_Date, DateTime to_Date)
         {
-            int reservationId = 0;
+            int reservationId;
 
             try
             {

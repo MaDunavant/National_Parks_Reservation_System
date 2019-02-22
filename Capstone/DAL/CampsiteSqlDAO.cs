@@ -47,35 +47,30 @@ namespace Capstone.DAL
 
         public IList<CampsiteModel> GetAvailableReservations(CampgroundModel campground, DateTime fromDate, DateTime toDate)
         {
-            IList<CampsiteModel> availableReservations = new List<CampsiteModel>();
+
+            // Start out by getting all reservations for the campsites at that campground
+            IList<CampsiteModel> availableReservations = GetCampsites(campground.Campground_Id);
             try
             {
                 using (SqlConnection conn = new SqlConnection(this.ConnectionString))
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("select * from site where campground_id = @campgroundId", conn);
-                    cmd.Parameters.AddWithValue("@campgroundId", campground.Campground_Id);
+                    //This SQL returns all reservations conflicting with requested dates
+                    SqlCommand cmd = new SqlCommand("select * from site s join reservation r on s.site_id = r.site_id where from_date between @fromDate and @toDate or to_date between @fromDate and @toDate", conn);
+                    cmd.Parameters.AddWithValue("@fromDate", fromDate);
+                    cmd.Parameters.AddWithValue("@toDate", toDate);
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
                         CampsiteModel campsite = ConvertReaderToCampsite(reader);
-                        availableReservations.Add(campsite);
-                    }
-                    reader.Close();
-
-                    cmd = new SqlCommand("select * from site s join reservation r on s.site_id = r.site_id where from_date between @fromDate and @toDate or to_date between @fromDate and @toDate", conn);
-                    cmd.Parameters.AddWithValue("@fromDate", fromDate);
-                    cmd.Parameters.AddWithValue("@toDate", toDate);
-                    reader = cmd.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        CampsiteModel campsite = ConvertReaderToCampsite(reader);
+                        // So if the possible reservation conflicts, remove it.
                         if (availableReservations.Contains(campsite))
                         {
                             availableReservations.Remove(campsite);
                         }
                     }
+                    // And only display the first 5 reservations, at most
                     while (availableReservations.Count > 5)
                     {
                         availableReservations.RemoveAt(5);
@@ -88,7 +83,6 @@ namespace Capstone.DAL
                 Console.WriteLine(ex.Message);
                 throw;
             }
-
             return availableReservations;
         }
 
