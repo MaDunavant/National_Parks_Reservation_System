@@ -26,8 +26,15 @@ namespace Capstone.Tests
         [DataRow(10, 11, false)]
         public void IsOpen_ShouldReturn_True_If_Campground_IsOpen(int startMonth, int endMonth, bool expected)
         {
+            DateTime startDate = new DateTime(2019, startMonth, 1);
+            DateTime endDate = new DateTime(2019, endMonth, 1);
             CampgroundSqlDAO dao = new CampgroundSqlDAO(base.ConnectionString);
-            bool isOpen = dao.IsOpen(base.NewCampgroundId, ("2019-01-01"), ("2019-01-04"));
+
+            CampgroundModel campground = new CampgroundModel();
+            campground.Open_From_MM = base.NewOpenFrom;
+            campground.Open_To_MM = base.NewOpenTo;
+
+            bool isOpen = dao.IsOpen(campground, startDate, endDate);
 
             Assert.AreEqual(expected, isOpen);
         }
