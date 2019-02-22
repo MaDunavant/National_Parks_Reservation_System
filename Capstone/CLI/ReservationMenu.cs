@@ -99,9 +99,13 @@ namespace Capstone.CLI
                         Console.WriteLine($"{res.Site_Id}".PadRight(10) + $"{res.Max_Occupancy}".PadRight(12) + $"{((res.Accessible)?"Yes":"No")}".PadRight(13) + $"{res.Max_RV_Length}".PadRight(15) + $"{((res.Utilities)?"Yes":"No")}".PadRight(9) + $"{reservationCost:C2}");
                     }
                     Console.WriteLine();
+                    Console.WriteLine("'0' to return to the menu.");
                     Console.Write("Please select a campsite: ");
-                    Console.Write("'0' to return to the menu.");
                     int whichCampsite = int.Parse(Console.ReadLine());
+                    if (whichCampsite == 0)
+                    {
+                        continue;
+                    }
                     bool validCampsite = false;
                     foreach (CampsiteModel csite in availableReservations)
                     {
@@ -113,10 +117,6 @@ namespace Capstone.CLI
                     if (!validCampsite)
                     {
                         throw new Exception("Invalid campsite.");
-                    }
-                    if (whichCampsite == 0)
-                    {
-                        continue;
                     }
                     Console.Write("Please enter the name for the reservation: ");
                     string camperName = Console.ReadLine();

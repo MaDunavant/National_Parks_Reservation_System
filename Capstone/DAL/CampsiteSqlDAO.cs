@@ -76,6 +76,10 @@ namespace Capstone.DAL
                             availableReservations.Remove(campsite);
                         }
                     }
+                    while (availableReservations.Count > 5)
+                    {
+                        availableReservations.RemoveAt(5);
+                    }
                 }
             }
             catch (SqlException ex)
