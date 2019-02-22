@@ -15,7 +15,7 @@ namespace Capstone.Tests
         {
             CampsiteSqlDAO dao = new CampsiteSqlDAO(base.ConnectionString);
             IList<CampsiteModel> campsites = dao.GetCampsites(base.CampgroundId);
-            Assert.AreEqual(36, CampsiteCount);
+            Assert.AreEqual(base.CampsiteCount, campsites.Count);
         }
     }
 }
