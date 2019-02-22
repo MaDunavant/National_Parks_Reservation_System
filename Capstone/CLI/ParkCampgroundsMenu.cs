@@ -10,10 +10,13 @@ namespace Capstone.CLI
     public class ParkCampgroundsMenu : Menu
     {
         public ParkModel Park { get; }
+        
+        public string ConnectionString { get; }
 
-        public ParkCampgroundsMenu(ParkModel park)
+        public ParkCampgroundsMenu(ParkModel park, string connectionString):base(connectionString)
         {
             this.Park = park;
+            this.ConnectionString = connectionString;
         }
 
         public void Display()
@@ -49,7 +52,7 @@ namespace Capstone.CLI
                     }
                     if (choice == "1")
                     {
-                        ReservationMenu rm = new ReservationMenu(Park);
+                        ReservationMenu rm = new ReservationMenu(Park, ConnectionString);
                         rm.Display();
                         continue;
                     }
@@ -65,6 +68,7 @@ namespace Capstone.CLI
                 catch (Exception ex)
                 {
                     Console.WriteLine("Invalid entry!  Try Again.");
+                    Console.WriteLine(ex.Message);
                     Console.WriteLine("Press any key to continue.");
                     Console.ReadKey();
                     continue;

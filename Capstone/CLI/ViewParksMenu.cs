@@ -8,7 +8,15 @@ namespace Capstone.CLI
 {
     public class ViewParksMenu : Menu
     {
-        public void Display() {
+        public string ConnectionString { get; }
+
+        public ViewParksMenu(string connectionString):base(connectionString)
+        {
+            this.ConnectionString = connectionString;
+        }
+
+        public void Display()
+        {
             while (true)
             {
                 Console.Clear();
@@ -36,7 +44,7 @@ namespace Capstone.CLI
 
                     if (numChoice <= parks.Count && numChoice > 0)
                     {
-                        ParksInformationMenu pim = new ParksInformationMenu(parks[numChoice - 1]);
+                        ParksInformationMenu pim = new ParksInformationMenu(parks[numChoice - 1], ConnectionString);
                         pim.Display();
                         continue;
                     }
@@ -52,6 +60,7 @@ namespace Capstone.CLI
                 catch (Exception ex)
                 {
                     Console.WriteLine("Invalid entry! Try again.");
+                    Console.WriteLine(ex.Message);
                     Console.Write("Press any key to continue");
                     Console.ReadKey();
                     continue;

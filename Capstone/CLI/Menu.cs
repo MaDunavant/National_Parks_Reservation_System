@@ -36,16 +36,8 @@ namespace Capstone.CLI
         };
 
 
-        public Menu()
-        {
-            IConfigurationBuilder builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-
-            IConfigurationRoot configuration = builder.Build();
-
-            string connectionString = configuration.GetConnectionString("Project");
-
+        public Menu(string connectionString)
+        {   
             this.ParkSqlDAO = new ParkSqlDAO(connectionString);
             this.CampgroundSqlDAO = new CampgroundSqlDAO(connectionString);
             this.CampsiteSqlDAO = new CampsiteSqlDAO(connectionString);

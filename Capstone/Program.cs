@@ -11,22 +11,17 @@ namespace Capstone
         static void Main(string[] args)
         {
             // Get the connection string from the appsettings.json file
-            //IConfigurationBuilder builder = new ConfigurationBuilder()
-            //    .SetBasePath(Directory.GetCurrentDirectory())
-            //    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+            IConfigurationBuilder builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
 
-            //IConfigurationRoot configuration = builder.Build();
+            IConfigurationRoot configuration = builder.Build();
 
-            //string connectionString = configuration.GetConnectionString("Project");
+            string connectionString = configuration.GetConnectionString("Project");
 
-            //ParkSqlDAO parkSqlDAO = new ParkSqlDAO(connectionString);
-            //CampgroundSqlDAO campgroundSqlDAO = new CampgroundSqlDAO(connectionString);
-            //CampsiteSqlDAO campsiteSqlDAO = new CampsiteSqlDAO(connectionString);
-            //ReservationSqlDAO reservationSqlDAO = new ReservationSqlDAO(connectionString);
+            Menu menu = new Menu(connectionString);
 
-            Menu menu = new Menu();
-
-            ViewParksMenu vpm = new ViewParksMenu();
+            ViewParksMenu vpm = new ViewParksMenu(connectionString);
             vpm.Display();
         }
     }

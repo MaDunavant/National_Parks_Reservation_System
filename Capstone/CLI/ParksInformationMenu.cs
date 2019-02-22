@@ -8,12 +8,15 @@ namespace Capstone.CLI
 {
     public class ParksInformationMenu : Menu
     {
-        public ParksInformationMenu(ParkModel park)
+        public ParksInformationMenu(ParkModel park, string connectionString):base(connectionString)
         {
             this.Park = park;
+            this.ConnectionString = connectionString;
         }
 
-        public ParkModel Park { get; set; }
+        public string ConnectionString { get; }
+
+        public ParkModel Park { get; }
 
         public CampgroundSqlDAO CampgroundDAO { get; }
 
@@ -33,7 +36,6 @@ namespace Capstone.CLI
                 Console.WriteLine($"{this.Park.Description}");
                 Console.WriteLine();
                 Console.WriteLine("1) View Campgrounds");
- //               Console.WriteLine("2) Search for Reservation");
                 Console.WriteLine("Q) Return to Previous Screen");
                 Console.WriteLine();
                 Console.Write("> Pick One: ");
@@ -51,12 +53,8 @@ namespace Capstone.CLI
 
                     if (numChoice == 1)
                     {
-                        ParkCampgroundsMenu pcm = new ParkCampgroundsMenu(this.Park);
+                        ParkCampgroundsMenu pcm = new ParkCampgroundsMenu(this.Park, ConnectionString);
                         pcm.Display();
-                        continue;
-                    }
-                    else if (numChoice == 2)
-                    {
                         continue;
                     }
                     else
@@ -67,14 +65,14 @@ namespace Capstone.CLI
                         continue;
                     }
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     Console.WriteLine("Invalid input. Try Again.");
+                    Console.WriteLine(ex.Message);
                     Console.WriteLine("Press any key to continue.");
                     Console.ReadKey();
                     continue;
-                }
-                
+                }               
             }
         }
     }

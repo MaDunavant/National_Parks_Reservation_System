@@ -10,9 +10,12 @@ namespace Capstone.CLI
     {
         public ParkModel Park { get; }
 
-        public ReservationMenu(ParkModel park)
+        public string ConnectionString { get; }
+
+        public ReservationMenu(ParkModel park, string connectionString):base(connectionString)
         {
             this.Park = park;
+            this.ConnectionString = connectionString;
         }
 
         public void Display()
@@ -144,8 +147,8 @@ namespace Capstone.CLI
                 catch (Exception ex)
                 {
                     Console.WriteLine("Invalid input, try again.");
-                    Console.WriteLine("Press any key to continue.");
                     Console.WriteLine(ex.Message);
+                    Console.WriteLine("Press any key to continue.");
                     Console.ReadKey();
                     continue;
                 }
