@@ -11,7 +11,7 @@ namespace Capstone.Tests
     public class CampgroundSqlDAOTests : ReservationSystemTests
     {
         [TestMethod]
-        public void GetCampgrounds_ShouldReturn_CompleteList_Of_CampgroundModels()
+        public void GetCampgrounds_ShouldReturn_List_Of_CampgroundModels_Based_On_Park()
         {
             CampgroundSqlDAO dao = new CampgroundSqlDAO(base.ConnectionString);
 
