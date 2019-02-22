@@ -17,7 +17,7 @@ namespace Capstone.DAL
 
         public int PlaceReservation(string name, int site_Id, DateTime from_Date, DateTime to_Date)
         {
-            int reservationId;
+            int reservationId = 0;
 
             try
             {
@@ -25,7 +25,7 @@ namespace Capstone.DAL
                 {
                     conn.Open();
 
-                    SqlCommand cmd = new SqlCommand("insert into reservation values (@site_Id, @name, @from_date, @to_date)", conn);
+                    SqlCommand cmd = new SqlCommand("insert into reservation values (@site_Id, @name, @from_date, @to_date,NULL)", conn);
                     cmd.Parameters.AddWithValue("@name", name);
                     cmd.Parameters.AddWithValue("@from_date", from_Date);
                     cmd.Parameters.AddWithValue("@to_date", to_Date);
@@ -33,8 +33,8 @@ namespace Capstone.DAL
 
                     cmd.ExecuteNonQuery();
 
-                    cmd = new SqlCommand("select @@Identity");
-                    reservationId = Convert.ToInt16(cmd.ExecuteScalar());
+                    cmd = new SqlCommand("select @@Identity",conn);
+                    reservationId = Convert.ToInt32(cmd.ExecuteScalar());
                  }
             }
             catch (SqlException ex)

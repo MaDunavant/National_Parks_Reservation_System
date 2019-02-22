@@ -129,6 +129,7 @@ namespace Capstone.CLI
                     Console.WriteLine($"The reservation ID is: {reservationId}");
                     Console.Write("Thank you for using the National Parks Reservation System!");
                     Console.ReadKey();
+
                     break;
                 }
                 catch (Exception ex)
