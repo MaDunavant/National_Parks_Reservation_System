@@ -33,7 +33,7 @@ namespace Capstone.CLI
                 Console.WriteLine($"{this.Park.Description}");
                 Console.WriteLine();
                 Console.WriteLine("1) View Campgrounds");
-                Console.WriteLine("2) Search for Reservation");
+ //               Console.WriteLine("2) Search for Reservation");
                 Console.WriteLine("Q) Return to Previous Screen");
                 Console.WriteLine();
                 Console.Write("> Pick One: ");

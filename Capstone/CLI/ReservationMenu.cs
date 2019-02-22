@@ -33,29 +33,33 @@ namespace Capstone.CLI
                     Console.WriteLine($"({i + 1}) {cmpg[i].Name.PadRight(35)} {MonthNames[cmpg[i].Open_From_MM].PadRight(10)}{MonthNames[cmpg[i].Open_To_MM].PadRight(10)}{cmpg[i].Daily_Fee:C2}");
                 }
 
-                Console.Write("Which campground (enter 0 to cancel)? ");
+                Console.WriteLine();
+                Console.WriteLine("Pick a campground: ");
+                Console.Write("(Q) to return to Previous Menu.");
                 string campgroundChoice = Console.ReadLine();
-
-                if (campgroundChoice == "0")
-                {
-                    break;
-                }
-                else if(int.Parse(campgroundChoice) > cmpg.Count || int.Parse(campgroundChoice) < 1)
-                {
-                    Console.WriteLine("Invalid input, try again.");
-                    Console.WriteLine("Press any key to continue.");
-                    Console.ReadKey();
-                    continue;
-                }
-
-                Console.Write("What is the arrival date? (YYYY-MM-DD): ");
-                string fromDateChoice = Console.ReadLine();
-
-                Console.Write("What is the departure date? (YYYY-MM-DD): ");
-                string toDateChoice = Console.ReadLine();
 
                 try
                 {
+                    if (campgroundChoice.ToUpper() == "Q")
+                    {
+                        break;
+                    }
+                    else if (int.Parse(campgroundChoice) > cmpg.Count || int.Parse(campgroundChoice) < 1)
+                    {
+                        Console.WriteLine("Invalid input, try again.");
+                        Console.WriteLine("Press any key to continue.");
+                        Console.ReadKey();
+                        continue;
+                    }
+
+                    Console.WriteLine();
+                    Console.Write("What is the arrival date? (YYYY-MM-DD): ");
+                    string fromDateChoice = Console.ReadLine();
+
+                    Console.WriteLine();
+                    Console.Write("What is the departure date? (YYYY-MM-DD): ");
+                    string toDateChoice = Console.ReadLine();
+
                     int campgroundID = int.Parse(campgroundChoice);
                     DateTime fromDate = DateTime.Parse(fromDateChoice);
                     DateTime toDate = DateTime.Parse(toDateChoice);
@@ -75,12 +79,14 @@ namespace Capstone.CLI
 
                     }
 
+                    Console.Clear();
                     int reservationDays = (int)(toDate - fromDate).TotalDays + 1;
 
                     decimal reservationCost = (decimal)reservationDays * cmpg[campgroundID - 1].Daily_Fee;
 
                     Console.WriteLine("Results Matching Your Search Criteria");
                     Console.WriteLine($"Site No.".PadRight(10) + "Max Occup.".PadRight(12) + "Accessible?".PadRight(13) + "Max RV Length".PadRight(15) + "Utility".PadRight(9) + "Cost");
+                    Console.WriteLine("".PadRight(63,'-'));
 
                     IList<CampsiteModel> availableReservations = new List<CampsiteModel>();
                     availableReservations = this.CampsiteSqlDAO.GetAvailableReservations(cmpg[campgroundID - 1], fromDate, toDate);
@@ -96,16 +102,17 @@ namespace Capstone.CLI
                     for (int i = 0; i < availableReservations.Count; i++)
                     {
                         CampsiteModel res = availableReservations[i];
-                        Console.WriteLine($"{res.Site_Id}".PadRight(10) + $"{res.Max_Occupancy}".PadRight(12) + $"{((res.Accessible)?"Yes":"No")}".PadRight(13) + $"{res.Max_RV_Length}".PadRight(15) + $"{((res.Utilities)?"Yes":"No")}".PadRight(9) + $"{reservationCost:C2}");
+                        Console.WriteLine($"{res.Site_Id}".PadRight(10) + $"{res.Max_Occupancy}".PadRight(12) + $"{((res.Accessible) ? "Yes" : "No")}".PadRight(13) + $"{res.Max_RV_Length}".PadRight(15) + $"{((res.Utilities) ? "Yes" : "No")}".PadRight(9) + $"{reservationCost:C2}");
                     }
                     Console.WriteLine();
-                    Console.WriteLine("'0' to return to the menu.");
-                    Console.Write("Please select a campsite: ");
-                    int whichCampsite = int.Parse(Console.ReadLine());
-                    if (whichCampsite == 0)
+                    Console.WriteLine("Please pick a campsite: ");
+                    Console.Write("(Q) to return to previous menu. ");
+                    string choice = Console.ReadLine();
+                    if (choice.ToUpper() == "Q")
                     {
                         continue;
                     }
+                    int whichCampsite = int.Parse(choice);
                     bool validCampsite = false;
                     foreach (CampsiteModel csite in availableReservations)
                     {
@@ -118,6 +125,7 @@ namespace Capstone.CLI
                     {
                         throw new Exception("Invalid campsite.");
                     }
+                    Console.WriteLine();
                     Console.Write("Please enter the name for the reservation: ");
                     string camperName = Console.ReadLine();
                     if (camperName == "")
@@ -125,6 +133,7 @@ namespace Capstone.CLI
                         throw new Exception("A name must be entered.");
                     }
                     int reservationId = this.ReservationSqlDAO.PlaceReservation(camperName, whichCampsite, fromDate, toDate);
+                    Console.WriteLine();
                     Console.WriteLine("Your reservation has been successfuly placed.");
                     Console.WriteLine($"The reservation ID is: {reservationId}");
                     Console.Write("Thank you for using the National Parks Reservation System!");

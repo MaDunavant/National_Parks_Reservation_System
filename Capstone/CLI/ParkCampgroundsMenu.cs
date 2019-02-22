@@ -39,7 +39,8 @@ namespace Capstone.CLI
                 {
                     Console.WriteLine();
                     Console.WriteLine("(1) Select campground");
-                    Console.WriteLine("(2) Return to Park Information Menu");
+                    Console.WriteLine("(Q) Return to Previous Screen");
+                    Console.WriteLine();
                     Console.Write("Please make a selection: ");
                     string choice = Console.ReadLine();
                     int numChoice = int.Parse(choice);
