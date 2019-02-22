@@ -18,6 +18,9 @@ namespace Capstone.Tests
         protected int ParkCount { get; private set; }
         protected int CampgroundCount { get; private set; }
         protected int CampsiteCount { get; private set; }
+        protected int NewOpenFrom { get; private set; }
+        protected int NewOpenTo { get; private set; }
+        protected int NewCampgroundId { get; private set; }
 
         private TransactionScope transaction;
 
@@ -42,6 +45,9 @@ namespace Capstone.Tests
                     this.ParkCount = Convert.ToInt32(reader["parkCount"]);
                     this.CampgroundCount = Convert.ToInt32(reader["campgroundCount"]);
                     this.CampsiteCount = Convert.ToInt32(reader["campsiteCount"]);
+                    this.NewOpenFrom = Convert.ToInt32(reader["newOpenFrom"]);
+                    this.NewOpenTo = Convert.ToInt32(reader["newOpenTo"]);
+                    this.NewCampgroundId = Convert.ToInt32(reader["newCampgroundId"]);
                 }
             }
         }
