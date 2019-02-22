@@ -30,12 +30,12 @@ namespace Capstone.CLI
                 cmpg = this.CampgroundSqlDAO.GetCampgrounds(Park.Park_Id);
                 for (int i = 0; i < cmpg.Count; i++)
                 {
-                    Console.WriteLine($"({i + 1}) {cmpg[i].Name.PadRight(35)} {MonthNames[cmpg[i].Open_From_MM].PadRight(10)}{MonthNames[cmpg[i].Open_To_MM].PadRight(10)}{cmpg[i].Daily_Fee:C2}");
+                    Console.WriteLine($"{i + 1}) {cmpg[i].Name.PadRight(35)} {MonthNames[cmpg[i].Open_From_MM].PadRight(10)}{MonthNames[cmpg[i].Open_To_MM].PadRight(10)}{cmpg[i].Daily_Fee:C2}");
                 }
 
                 Console.WriteLine();
                 Console.WriteLine("Pick a campground: ");
-                Console.Write("(Q) to return to Previous Menu.");
+                Console.WriteLine("Q) Return to Previous Screen");
                 string campgroundChoice = Console.ReadLine();
 
                 try
@@ -105,8 +105,8 @@ namespace Capstone.CLI
                         Console.WriteLine($"{res.Site_Id}".PadRight(10) + $"{res.Max_Occupancy}".PadRight(12) + $"{((res.Accessible) ? "Yes" : "No")}".PadRight(13) + $"{res.Max_RV_Length}".PadRight(15) + $"{((res.Utilities) ? "Yes" : "No")}".PadRight(9) + $"{reservationCost:C2}");
                     }
                     Console.WriteLine();
-                    Console.WriteLine("Please pick a campsite: ");
-                    Console.Write("(Q) to return to previous menu. ");
+                    Console.WriteLine("Please pick a Site No.: ");
+                    Console.WriteLine("Q) Return to Previous Screen");
                     string choice = Console.ReadLine();
                     if (choice.ToUpper() == "Q")
                     {

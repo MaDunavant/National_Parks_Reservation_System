@@ -19,9 +19,9 @@ namespace Capstone.CLI
 
                 for (int i=0; i < parks.Count; i++)
                 {
-                    Console.WriteLine($"({i + 1}) {parks[i].Name}");
+                    Console.WriteLine($"{i + 1}) {parks[i].Name}");
                 }
-                Console.WriteLine("(Q)uit");
+                Console.WriteLine("Q)uit");
                 try
                 {
                     Console.WriteLine();
